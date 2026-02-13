@@ -1,0 +1,27 @@
+﻿@page "/create-product"
+@using MyApp.Web.Models.ProductModel
+@inject HttpClient Http
+
+<h3>Create Product</h3>
+
+<input @bind="product.Name" placeholder="Name" />
+<input type="number" @bind="product.Price" placeholder="Price" />
+
+<button @onclick="SubmitProduct">Submit</button>
+
+@code {
+    private CreateProductDto product = new();
+
+    private async Task SubmitProduct()
+    {
+        var response = await Http.PostAsJsonAsync("api/products", product);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Product aangemaakt!");
+        }
+        else
+        {
+            Console.WriteLine("Fout bij aanmaken product");
+        }
+    }
+}
